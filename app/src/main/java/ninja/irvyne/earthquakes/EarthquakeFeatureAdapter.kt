@@ -2,17 +2,16 @@ package ninja.irvyne.earthquakes
 
 import android.content.Context
 import android.graphics.Color
-import android.support.v4.content.ContextCompat
 import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import ninja.irvyne.earthquakes.api.model.Feature
 import org.threeten.bp.Instant
 import org.threeten.bp.ZoneOffset
+import org.threeten.bp.format.DateTimeFormatter
 import java.util.*
 
 
@@ -47,7 +46,7 @@ class EarthquakeFeatureAdapter(
                 .ofEpochMilli(holder.earthquake.properties?.time ?: 0)
                 .atZone(ZoneOffset.UTC)
                 .toLocalDateTime()
-                .format(org.threeten.bp.format.DateTimeFormatter.ofPattern("E, MMMM d, YYYY 'at' h:m a").withLocale(Locale.getDefault()))
+                .format(DateTimeFormatter.ofPattern("E, MMMM d, YYYY 'at' h:m a").withLocale(Locale.getDefault()))
 
         holder.view.setOnClickListener {
             listener.onEarthquakeSelected(holder.earthquake)
