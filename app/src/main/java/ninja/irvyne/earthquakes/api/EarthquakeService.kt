@@ -10,8 +10,14 @@ interface EarthquakeService {
     fun listSignificantEarthquakes(): Call<EarthquakeData>
 
     @GET("earthquakes/feed/v1.0/summary/4.5_month.geojson")
-    fun listM4Earthquakes(): Call<EarthquakeData>
+    fun listStrongEarthquakes(): Call<EarthquakeData>
+
+    @GET("earthquakes/feed/v1.0/summary/2.5_month.geojson")
+    fun listMediumEarthquakes(): Call<EarthquakeData>
+
+    @GET("earthquakes/feed/v1.0/summary/1.0_month.geojson")
+    fun listLittleEarthquakes(): Call<EarthquakeData>
 
     @GET("earthquakes/feed/v1.0/summary/all_month.geojson")
-    fun pleaseForgiveMe(): Call<EarthquakeData>
+    fun listAllEarthquakes(): Call<EarthquakeData>
 }

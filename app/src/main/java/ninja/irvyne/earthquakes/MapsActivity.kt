@@ -3,10 +3,8 @@ package ninja.irvyne.earthquakes
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.*
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import ninja.irvyne.earthquakes.api.EarthquakeService
@@ -23,13 +21,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var mService: EarthquakeService
-    private var mMessage: String? = null
+    private var mEarthquakeChoice: Int = -1
+    private var mSelectedEarthquakeId: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
 
-        mMessage = intent.getStringExtra(MainActivity.EXTRA_CHOICE)
+        mEarthquakeChoice = intent.getIntExtra(EXTRA_CHOICE, mEarthquakeChoice)
+        mSelectedEarthquakeId = intent.getStringExtra(EXTRA_EARTHQUAKE_ID)
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
@@ -56,16 +56,18 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
-        // Add a marker in Sydney and move the camera
-        val sydney = LatLng(-34.0, 151.0)
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+//        // Add a marker in Sydney and move the camera
+//        val sydney = LatLng(-34.0, 151.0)
+//        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
 
-
-        val request = when (mMessage) {
-            "All" -> mService.listSignificantEarthquakes()
-            "M1.0+" -> mService.listM4Earthquakes()
-            else -> mService.listSignificantEarthquakes()
+        val request = when (mEarthquakeChoice) {
+            0 -> mService.listLittleEarthquakes()
+            1 -> mService.listMediumEarthquakes()
+            2 -> mService.listStrongEarthquakes()
+            3 -> mService.listSignificantEarthquakes()
+            4 -> mService.listAllEarthquakes()
+            else -> throw Exception("No correct value for mEarthquakeChoice, 0..4 accepted but '$mEarthquakeChoice' given!")
         }
 
         request.enqueue(object : Callback<EarthquakeData> {
@@ -81,7 +83,21 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 response?.body()?.let {
                     it.features?.forEach { feature ->
                         feature.geometry?.coordinates?.let {
-                            mMap.addMarker(MarkerOptions().position(LatLng(it[1], it[0])).title(feature.properties?.title))
+
+                            val color = if (feature.properties?.mag == null) BitmapDescriptorFactory.HUE_ROSE else when (feature.properties?.mag) {
+                                in 0.0..1.0 -> BitmapDescriptorFactory.HUE_GREEN
+                                in 1.0..2.5 -> BitmapDescriptorFactory.HUE_AZURE
+                                in 2.5..4.5 -> BitmapDescriptorFactory.HUE_BLUE
+                                in 4.5..6.5 -> BitmapDescriptorFactory.HUE_ORANGE
+                                else -> BitmapDescriptorFactory.HUE_RED
+                            }
+
+                            mMap.addMarker(MarkerOptions().position(LatLng(it[1], it[0])).title(feature.properties?.title).icon(BitmapDescriptorFactory.defaultMarker(color))).apply {
+                                if (mSelectedEarthquakeId != null && mSelectedEarthquakeId == feature.id) {
+                                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 4f))
+                                    showInfoWindow()
+                                }
+                            }
                         }
                     }
                 }
@@ -91,5 +107,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     companion object {
         private const val TAG = "MapsActivity"
+        const val EXTRA_CHOICE = "$TAG.choice"
+        const val EXTRA_EARTHQUAKE_ID = "$TAG.earthquake_id"
     }
 }

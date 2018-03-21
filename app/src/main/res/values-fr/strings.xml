@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Séismes</string>
+    <string name="app_name">Séismes IIM</string>
+    <string name="title_activity_main">Séismes</string>
+    <string name="title_activity_list">Liste des Séismes</string>
+    <string name="title_activity_maps">Carte</string>
+    <string name="earthquakes_all">Tous les séismes</string>
+    <string name="earthquakes_significant">Séismes importants</string>
+    <string name="earthquakes_m1.0">Séisme magnitude >= 1.0</string>
+    <string name="earthquakes_m2.5">Séisme magnitude >= 2.5</string>
+    <string name="earthquakes_m4.5">Séisme magnitude >= 4.5</string>
+    <string name="btn_list">Voir en liste</string>
+    <string name="btn_maps">Voir sur la carte</string>
 </resources>

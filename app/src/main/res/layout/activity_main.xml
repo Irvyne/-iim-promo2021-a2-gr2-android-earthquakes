@@ -3,24 +3,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="8dp"
     android:orientation="vertical"
     tools:context="ninja.irvyne.earthquakes.MainActivity">
 
     <Spinner
         android:id="@+id/mainSpinner"
         android:layout_width="match_parent"
-        android:layout_height="50dp" />
+        android:layout_height="50dp"
+        android:layout_marginBottom="8dp" />
 
     <Button
         android:id="@+id/mainButtonMaps"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/maps" />
+        android:layout_marginBottom="8dp"
+        android:text="@string/btn_maps" />
 
     <Button
         android:id="@+id/mainButtonList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/list" />
+        android:text="@string/btn_list" />
 
 </LinearLayout>

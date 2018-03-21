@@ -1,13 +1,24 @@
 <resources>
-    <string name="app_name">Earthquakes</string>
-    <string name="title_activity_maps">Map</string>
-    <string name="maps">Maps</string>
-    <string name="list">List</string>
+    <string name="app_name">Earthquakes IIM</string>
+
+    <string name="title_activity_main">Earthquakes</string>
+    <string name="title_activity_list">Earthquakes List</string>
+    <string name="title_activity_maps">Maps</string>
+
+    <string name="earthquakes_all">All Earthquakes</string>
+    <string name="earthquakes_significant">Significant Earthquakes</string>
+    <string name="earthquakes_m1.0">Magnitude 1.0+</string>
+    <string name="earthquakes_m2.5">Magnitude 2.5+</string>
+    <string name="earthquakes_m4.5">Magnitude 4.5+</string>
+
     <string-array name="earthquakes_list">
-        <item>All</item>
-        <item>M1.0+</item>
-        <item>M2.5+</item>
-        <item>M4.5+</item>
-        <item>Significant</item>
+        <item>@string/earthquakes_m1.0</item>
+        <item>@string/earthquakes_m2.5</item>
+        <item>@string/earthquakes_m4.5</item>
+        <item>@string/earthquakes_significant</item>
+        <item>@string/earthquakes_all</item>
     </string-array>
+
+    <string name="btn_list">Show as List</string>
+    <string name="btn_maps">Show as Maps</string>
 </resources>
