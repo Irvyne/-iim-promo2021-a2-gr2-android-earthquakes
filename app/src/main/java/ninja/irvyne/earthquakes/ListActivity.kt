@@ -65,7 +65,7 @@ class ListActivity :
                 val earthquakes = response?.body()?.features ?: arrayListOf()
 
                 listRecyclerView.apply {
-                    adapter = EarthquakeFeatureAdapter(context, earthquakes, this@ListActivity)
+                    adapter = EarthquakeFeatureAdapter(earthquakes, this@ListActivity)
                 }
             }
         })

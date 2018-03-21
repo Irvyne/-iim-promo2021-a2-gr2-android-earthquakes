@@ -16,7 +16,6 @@ import java.util.*
 
 
 class EarthquakeFeatureAdapter(
-        private val context: Context,
         private val data: List<Feature>,
         private val listener: OnEarthquakeFeatureAdapterInteraction
 ) : RecyclerView.Adapter<EarthquakeFeatureAdapter.ViewHolder>() {
